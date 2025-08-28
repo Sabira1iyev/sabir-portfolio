@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             };
 
             try {
-                const response = await fetch('/api/contact', {
+                const response = await fetch('https://kind-imagination-production.up.railway.app/api/contact', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
