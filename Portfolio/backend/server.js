@@ -1,5 +1,6 @@
 const express = require('express');
-const nodemailer = require('nodemailer');
+sgmail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const cors = require('cors');
 require('dotenv').config();
 
@@ -10,14 +11,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static('../'));  
-// Email transporter oluştur
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,  
-        pass: process.env.EMAIL_PASS   
-    }
-});
+
 
 // Contact form endpoint
 app.post('/api/contact', async (req, res) => {
@@ -52,21 +46,10 @@ app.post('/api/contact', async (req, res) => {
         };
 
         // Email gönder
-        await transporter.sendMail(mailOptions);
-
-        res.status(200).json({ 
-            success: true, 
-            message: 'Your message has been sent successfully!' 
-        });
-
-    } catch (error) {
-        console.error('Email sending error:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'An error occurred while sending the message.' 
-        });
-    }
-});
+await sgMail.send({
+    to: 's.aliyev2005@gmail.com',
+    
+})
 
 // Ana sayfa
 app.get('/', (req, res) => {
